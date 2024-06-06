@@ -1,0 +1,9 @@
+def init(repo):
+    repo.name = "neural_network_training"
+    repo.description = FileReader("README.md")
+
+def prepare(repo, options):
+    repo.add_modules_recursive(".", modulefile="*.lb")
+
+def build(env):
+    env.collect("modm:build:path.include", "neural_network_training/src")

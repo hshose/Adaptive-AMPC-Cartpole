@@ -1,0 +1,17 @@
+def init(module):
+    module.name = ":embedded_nn_inference"
+
+def prepare(module, options):
+    module.depends(
+        "modm:platform:core",
+    )
+    return True
+
+def build(env):
+    env.outbasepath = "neural_network_training/src/neural_network_training/embedded_nn_inference"
+    env.copy("neural_network.hpp")
+    env.copy("neural_network.cpp")
+    env.copy("fc_layer.hpp")
+    env.copy("activation_function.hpp")
+    env.copy("activation_function.cpp")
+

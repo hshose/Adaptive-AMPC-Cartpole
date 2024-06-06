@@ -1,0 +1,44 @@
+#ifndef NEURAL_NETWORK_HPP
+#define NEURAL_NETWORK_HPP
+
+#include "fc_layer.hpp"
+#include <array>
+#include "activation_function.hpp"
+
+#   if defined DONOTDEFINE
+#       define ram_section modm_section(".data_sram1")
+#       include <modm/platform.hpp>
+#   else
+#       define ram_section
+#   endif
+
+
+namespace embedded_nn_inference{
+
+    using namespace std;
+
+    {% for network in network_list %}
+    namespace {{network.name}} {
+
+    {% for layer in network.layer_list %}
+    static {{layer.activation}} act_f{{loop.index}};
+    ram_section constexpr static array<array<float,{{layer.input_size}}>, {{layer.output_size}}> w{{loop.index}} = { {{layer.weights}} };
+    ram_section constexpr static array<float,{{layer.output_size}}> b{{loop.index}} = {{layer.bias}};
+    static array<float, {{layer.output_size}}> layer_output{{loop.index}};
+    static FCLayer<float, {{layer.activation}}, {{layer.input_size}}, {{layer.output_size}}> layer{{loop.index}}{w{{loop.index}}, b{{loop.index}}, act_f{{loop.index}}};
+    {% endfor %}
+
+    array<float, {{network.output_size}}> call_nn(const array<float, {{network.input_size}}>& input);
+
+    ram_section constexpr static array<float, {{network.input_size}}>  input_offset = {{network.input_offset}};
+    ram_section constexpr static array<float, {{network.input_size}}>  input_scale  = {{network.input_scale}};
+    ram_section constexpr static array<float, {{network.output_size}}> output_offset = {{network.output_offset}};
+    ram_section constexpr static array<float, {{network.output_size}}> output_scale  = {{network.output_scale}};
+    
+    array<float, {{network.input_size}}> normalize_input(    const array<float, {{network.input_size}}>& in  );
+    array<float, {{network.output_size}}> denormalize_output( const array<float, {{network.output_size}}>& out );
+
+    } // namespace {{network.name}}
+    {% endfor %}
+}
+#endif

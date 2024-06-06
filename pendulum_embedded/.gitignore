@@ -1,0 +1,47 @@
+*~
+*.pyc
+.sconsign.dblite
+.project
+.cproject
+.pydevproject
+.settings/
+build/
+.idea/
+.vagrant/
+
+# Generated log files from lbuild
+project.xml.log
+
+# qt creator
+*.creator
+*.creator.user
+*.creator.shared
+*.config
+*.includes
+*.files
+
+# CMake
+CMakeLists.txt
+
+#Clion
+**/.idea/
+
+# Codium/Code
+**/.vscode/
+
+# ignore generated code in the example folder
+examples/**/modm
+examples/**/modm-test
+examples/**/artifacts
+examples/**/compile_commands.json
+examples/**/SConstruct
+examples/**/Makefile
+examples/**/generated
+examples/**/coredump.txt
+
+# repo.lb cache file
+ext/modm-devices.cache
+
+__pycache__
+
+log/*.csv

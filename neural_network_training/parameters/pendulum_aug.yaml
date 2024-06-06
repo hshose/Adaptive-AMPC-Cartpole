@@ -1,0 +1,28 @@
+#dataset params
+dataset_path: "/home/alex/torch_datasets/AMPCPendulum"
+num_sys_inputs: 1
+num_aug_params: 5
+num_sys_states: 4
+
+train_size: 0.8
+evaluation_size: 0.1
+test_size: 0.1
+dataloader_num_workers: 8
+
+# logging options
+hpc_data_path: "/home/alex/hpc_data/pendulum_swingup"
+
+# optimizer options
+batch_size: 10000
+batch_size_testing: 10000
+learning_rate: 0.005
+max_epochs: 2000
+early_stopping_patience: 1000
+train_aug: True
+
+# neural network params
+num_layers: 5
+num_neurons: 60
+activation_function: "tanh"
+
+seed: 1

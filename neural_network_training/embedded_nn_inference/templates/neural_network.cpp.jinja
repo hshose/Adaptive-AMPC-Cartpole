@@ -1,0 +1,41 @@
+#include <array>
+#include "neural_network.hpp"
+
+namespace embedded_nn_inference{
+
+    using namespace std;
+
+    {% for network in network_list %}
+
+    namespace {{network.name}} {
+    
+    array<float, {{network.output_size}}>
+    call_nn(const array<float, {{network.input_size}}>& input){
+        {% for layer in network.layer_list %}
+        {% if loop.first %}layer{{loop.index}}.call(input, layer_output{{loop.index}});{%else%}layer{{loop.index}}.call(layer_output{{loop.index-1}}, layer_output{{loop.index}});{% endif %}
+        {% if loop.last%}return layer_output{{loop.index}};{%endif%}{% endfor %}
+    }
+
+    array<float, {{network.input_size}}>
+    normalize_input(const array<float, {{network.input_size}}>& in){
+        array<float, {{network.input_size}}> res;
+        for (int i = 0; i < {{network.input_size}}; i++) {
+            res[i] = (in[i] - input_offset[i]) / input_scale[i];
+        }
+        return res;
+    }
+    
+    array<float, {{network.output_size}}>
+    denormalize_output(const array<float, {{network.output_size}}>& out){
+        array<float, {{network.output_size}}> res;
+        for (int i = 0; i < {{network.output_size}}; i++) {
+            res[i] = out[i]*output_scale[i] + output_offset[i];
+        }
+        return res;
+    }
+
+    } // namespace {{network.name}} 
+    {% endfor %}
+
+}
+    
