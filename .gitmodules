@@ -1,0 +1,6 @@
+[submodule "pendulum_embedded/ext/modm"]
+	path = pendulum_embedded/ext/modm
+	url = https://github.com/modm-io/modm
+[submodule "pendulum_embedded/ext/librobots2"]
+	path = pendulum_embedded/ext/librobots2
+	url = https://github.com/roboterclubaachen/librobots2
